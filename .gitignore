@@ -6,5 +6,4 @@ dataset/
 *.mar
 logs/
 src/
-app/
 venv/

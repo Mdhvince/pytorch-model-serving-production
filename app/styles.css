@@ -1,0 +1,24 @@
+.rounded-tag {
+    display: inline-block;
+    padding: 5px 10px;
+    border-radius: 20px;
+    background-color: indianred;
+    color: #fff;
+    font-family: Arial, sans-serif;
+    font-size: 14px;
+    text-align: center;
+    text-decoration: none;
+    margin: 5px;
+}
+.rounded-tag-disabled {
+    display: inline-block;
+    padding: 5px 10px;
+    border-radius: 20px;
+    background-color: lightslategrey;
+    color: #ccc;
+    font-family: Arial, sans-serif;
+    font-size: 14px;
+    text-align: center;
+    text-decoration: none;
+    margin: 5px;
+}
