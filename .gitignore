@@ -1,0 +1,10 @@
+.idea/
+dataset/
+*.pt
+*.pth
+*.bin
+*.mar
+logs/
+src/
+app/
+venv/
