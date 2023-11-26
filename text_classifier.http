@@ -1,0 +1,12 @@
+### Check management API status
+GET http://localhost:8081/models
+
+
+### Send a request to the model server
+POST http://localhost:8080/predictions/text_classifier_endpoint
+Content-Type: application/json
+
+{
+  "data": "This is a test!"
+}
+
