@@ -9,7 +9,7 @@ RUN python ./ts_scripts/install_dependencies.py
 WORKDIR /
 
 COPY requirements.txt /requirements.txt
-RUN pip install -r requirements.txtxx
+RUN pip install -r requirements.txt
 
 
 RUN mkdir input_torch_model_archiver
@@ -17,7 +17,7 @@ COPY input_torch_model_archiver/config.ini input_torch_model_archiver/config.ini
 COPY input_torch_model_archiver/model.py input_torch_model_archiver/model.py
 COPY input_torch_model_archiver/model_state_dict.pt input_torch_model_archiver/model_state_dict.pt
 COPY input_torch_model_archiver/model_handler.py input_torch_model_archiver/model_handler.py
-COPY intput_torch_model_archiver/word2idx.pkl input_torch_model_archiver/word2idx.pkl
+COPY input_torch_model_archiver/word2idx.pkl input_torch_model_archiver/word2idx.pkl
 
 RUN mkdir model_store
 
@@ -26,7 +26,7 @@ RUN torch-model-archiver \
     --version 1.0 \
     --serialized-file input_torch_model_archiver/model_state_dict.pt \
     --handler input_torch_model_archiver/model_handler.py \
-    --extra-files input_torch_model_archiver/word2idx.pkl \
+    --extra-files input_torch_model_archiver/word2idx.pkl,input_torch_model_archiver/config.ini \
     --export-path model_store \
 
 EXPOSE 8080
