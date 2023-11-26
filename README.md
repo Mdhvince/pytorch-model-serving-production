@@ -30,3 +30,6 @@ Directory structure:
 - Stop the server `torchserve --stop`.
 
 Copying, creating and running commands can be found in the `torchserve_script/*.sh` files.
+
+## Reproducibility
+Once ready to deploy, I create a `Dockerfile` file to create a docker image and run the container. This ensures that the model is reproducible and can be deployed on any machine.

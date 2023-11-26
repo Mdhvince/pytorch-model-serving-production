@@ -7,5 +7,6 @@ dataset/
 logs/
 experiments/
 venv/
+.vscode/
 
 
