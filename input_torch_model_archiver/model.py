@@ -15,6 +15,7 @@ class RNNClassifier(nn.Module):
         """
         super(RNNClassifier, self).__init__()
 
+        nltk.download('stopwords')
         output_size = config["MODEL"].getint("output_size")  # number of classes to predict
         embedding_dim = config["MODEL"].getint("embedding_dim")
         self.hidden_dim = config["MODEL"].getint("hidden_dim")

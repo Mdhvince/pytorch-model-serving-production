@@ -1,34 +1,34 @@
-FROM ubuntu:latest
+FROM pytorch/torchserve:latest-cpu
 
-WORKDIR /
+RUN python3 -m pip install --upgrade pip
+RUN pip install nltk==3.8.1
 
-RUN git clone https://github.com/pytorch/serve.git
-WORKDIR /serve
-RUN python ./ts_scripts/install_dependencies.py
+RUN mkdir -p /home/model-server/nltk_data
+RUN python3 -c "import nltk; nltk.download('wordnet', download_dir='/home/model-server/nltk_data')"
 
-WORKDIR /
+COPY input_torch_model_archiver/config.ini /home/model-server/
+COPY input_torch_model_archiver/model.py /home/model-server/
+COPY input_torch_model_archiver/model_state_dict.pt /home/model-server/
+COPY input_torch_model_archiver/model_handler.py /home/model-server/
+COPY input_torch_model_archiver/word2idx.pkl /home/model-server/
 
-COPY requirements.txt /requirements.txt
-RUN pip install -r requirements.txt
+EXPOSE 8080
+EXPOSE 8081
+EXPOSE 8082
 
-
-RUN mkdir input_torch_model_archiver
-COPY input_torch_model_archiver/config.ini input_torch_model_archiver/config.ini
-COPY input_torch_model_archiver/model.py input_torch_model_archiver/model.py
-COPY input_torch_model_archiver/model_state_dict.pt input_torch_model_archiver/model_state_dict.pt
-COPY input_torch_model_archiver/model_handler.py input_torch_model_archiver/model_handler.py
-COPY input_torch_model_archiver/word2idx.pkl input_torch_model_archiver/word2idx.pkl
-
-RUN mkdir model_store
+RUN mkdir -p /home/model-server/model_store
 
 RUN torch-model-archiver \
     --model-name text_classifier_endpoint \
     --version 1.0 \
-    --serialized-file input_torch_model_archiver/model_state_dict.pt \
-    --handler input_torch_model_archiver/model_handler.py \
-    --extra-files input_torch_model_archiver/word2idx.pkl,input_torch_model_archiver/config.ini \
-    --export-path model_store \
+    --model-file /home/model-server/model.py \
+    --serialized-file /home/model-server/model_state_dict.pt \
+    --handler /home/model-server/model_handler.py \
+    --extra-files /home/model-server/config.ini,/home/model-server/word2idx.pkl \
+    --export-path /home/model-server/model_store
 
-EXPOSE 8080
-
-CMD ["torchserve", "--start", "--ncs", "--model-store", "model_store", "--models", "text_classifier_endpoint=text_classifier_endpoint.mar"]
+CMD ["torchserve", \
+     "--start", \
+     "--ncs", \
+     "--model-store", "/home/model-server/model_store", \
+     "--models", "text_classifier_endpoint=text_classifier_endpoint.mar"]
