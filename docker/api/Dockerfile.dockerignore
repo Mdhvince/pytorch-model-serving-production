@@ -1,0 +1,8 @@
+# Ignore everything
+*
+
+# Allow files and directories
+!inference
+
+# Ignore files inside allowed directories
+**/__pycache__

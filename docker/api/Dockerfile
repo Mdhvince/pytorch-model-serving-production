@@ -6,11 +6,7 @@ RUN pip install nltk==3.8.1
 RUN mkdir -p /home/model-server/nltk_data
 RUN python3 -c "import nltk; nltk.download('wordnet', download_dir='/home/model-server/nltk_data')"
 
-COPY input_torch_model_archiver/config.ini /home/model-server/
-COPY input_torch_model_archiver/model.py /home/model-server/
-COPY input_torch_model_archiver/model_state_dict.pt /home/model-server/
-COPY input_torch_model_archiver/model_handler.py /home/model-server/
-COPY input_torch_model_archiver/word2idx.pkl /home/model-server/
+COPY inference/* /home/model-server/
 
 EXPOSE 8080
 EXPOSE 8081
